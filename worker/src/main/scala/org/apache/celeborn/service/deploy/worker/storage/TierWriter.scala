@@ -672,6 +672,8 @@ class DfsTierWriter(
 
   override def cleanLocalOrDfsFiles(): Unit = {
     dfsFileInfo.deleteAllFiles(hadoopFs)
+    partitionDataWriterContext.getDeviceMonitor.unregisterFileWriter(
+      partitionDataWriterContext.getPartitionDataWriter)
   }
 
   override def takeBufferInternal(): CompositeByteBuf = {
