@@ -332,6 +332,11 @@ private[deploy] class Controller(
                 }
 
                 val fileWriter = location.asInstanceOf[WorkingPartition].getFileWriter
+                val fileInfo = if (null != fileWriter.getDiskFileInfo) {
+                    fileWriter.getDiskFileInfo
+                  } else {
+                    fileWriter.getMemoryFileInfo
+                  }
                 waitMapPartitionRegionFinished(fileWriter, shuffleCommitTimeout)
                 val bytes = fileWriter.close()
                 if (bytes > 0L) {
@@ -340,12 +345,6 @@ private[deploy] class Controller(
                     logDebug(s"Location $uniqueId is deleted.")
                   } else {
                     val storageInfo = fileWriter.getStorageInfo
-                    val fileInfo =
-                      if (null != fileWriter.getDiskFileInfo) {
-                        fileWriter.getDiskFileInfo
-                      } else {
-                        fileWriter.getMemoryFileInfo
-                      }
                     committedStorageInfos.put(uniqueId, storageInfo)
                     if (fileWriter.getMapIdBitMap != null) {
                       committedMapIdBitMap.put(uniqueId, fileWriter.getMapIdBitMap)
@@ -361,6 +360,7 @@ private[deploy] class Controller(
                 if (mockCommitFilesFailure) {
                   Thread.sleep(10)
                 }
+                logInfo(s"Commit file ${fileInfo.getFilePath} success for $shuffleKey $uniqueId fileSize: $bytes")
               } catch {
                 case e: IOException =>
                   logError(s"Commit file for $shuffleKey $uniqueId failed.", e)
