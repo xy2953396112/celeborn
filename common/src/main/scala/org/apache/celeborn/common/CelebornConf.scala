@@ -3335,7 +3335,7 @@ object CelebornConf extends Logging {
     buildConf("celeborn.storage.hdfs.multi.dir")
       .withAlternative("celeborn.storage.hdfs.multi.dir")
       .categories("worker", "master", "client")
-      .version("0.6.0")
+      .version("0.7.0")
       .doc("HDFS base directory for Celeborn to store shuffle data, supporting multi dir with comma delimiter")
       .stringConf
       .createOptional
@@ -3352,7 +3352,7 @@ object CelebornConf extends Logging {
     buildConf("celeborn.storage.s3.multi.dir")
       .withAlternative("celeborn.storage.hdfs.multi.dir")
       .categories("worker", "master", "client")
-      .version("0.6.0")
+      .version("0.7.0")
       .doc("S3 base directory for Celeborn to store shuffle data, supporting multi dir with comma delimiter")
       .stringConf
       .createOptional
@@ -3409,7 +3409,7 @@ object CelebornConf extends Logging {
     buildConf("celeborn.storage.oss.multi.dir")
       .withAlternative("celeborn.storage.hdfs.multi.dir")
       .categories("worker", "master", "client")
-      .version("0.6.0")
+      .version("0.7.0")
       .doc("OSS base directory for Celeborn to store shuffle data, supporting multi dir with comma delimiter")
       .stringConf
       .createOptional
