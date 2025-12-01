@@ -114,7 +114,8 @@ object CelebornHadoopUtils extends Logging {
           val list =
             hadoopFs.computeIfAbsent(
               storageType,
-              (_: StorageInfo.Type) => new util.ArrayList[(String, FileSystem)])
+              (_: StorageInfo.Type) =>
+                new util.ArrayList[Tuple2[String, FileSystem]](): util.List[(String, FileSystem)])
           dirs.foreach { dir =>
             val exists = list.stream().anyMatch(_._1 == dir)
             if (!exists) {
